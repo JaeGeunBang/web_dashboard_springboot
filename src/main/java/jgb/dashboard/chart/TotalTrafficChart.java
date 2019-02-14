@@ -1,6 +1,7 @@
 
 package jgb.dashboard.chart;
 import lombok.*;
+import java.util.*;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor

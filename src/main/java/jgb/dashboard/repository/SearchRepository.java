@@ -14,7 +14,7 @@ public interface SearchRepository extends JpaRepository<Search, Integer> {
     @Query(value = "SELECT * FROM search x WHERE x.device = :device AND x.daily_Weekly_Monthly = :date_type"
         + " AND x.date >= :start_date AND x.date <= :end_date"
         + " AND x.search_type = :search_type ORDER BY x.date, x.value_type, x.device", nativeQuery = true)
-    List<Search> getSearch(
+    List<Search> getSearchTableRowList(
         @Param("search_type") String search_type,
         @Param("device") String device,
         @Param("date_type") String date_type,

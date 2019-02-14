@@ -1,20 +1,23 @@
+
 package jgb.dashboard.domain;
 
 import javax.persistence.*;
 import lombok.*;
 
-@Entity
-@Table (name="search")
+@Data
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-
-public class Search extends CommonDomainField{
-    @Column(nullable = false)
-    private String valueType; 
-
-    @Column(nullable = false)
-    private Double value;
+public class CommonDomainField {
+    @Id
+    @GeneratedValue
+    private Integer id;
 
     @Column(nullable = false)
-    private Integer searchType;
+    private String dailyWeeklyMonthly;
+
+    @Column(nullable = false)
+    private String device ; 
+
+    @Column(nullable = false)
+    private String date ; 
 }

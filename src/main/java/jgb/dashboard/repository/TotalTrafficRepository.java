@@ -13,7 +13,7 @@ import java.util.*;
 public interface TotalTrafficRepository extends JpaRepository<TotalTraffic, Integer> {
     @Query(value = "SELECT * FROM totaltraffic x WHERE x.device = :device AND x.daily_Weekly_Monthly = :date_type AND x.date >= :start_date AND x.date <= :end_date"
         + " ORDER BY x.date, x.device, x.domain, x.pvuv", nativeQuery = true)
-    List<TotalTraffic> getTotaltraffic(
+    List<TotalTraffic> getTotaltrafficTableRowList(
         @Param("device") String device,
         @Param("date_type") String date_type,
         @Param("start_date") String start_date,
