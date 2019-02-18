@@ -2,7 +2,7 @@
 package jgb.dashboard.chartList;
 import jgb.dashboard.chart.*;
 
-public class QmSearchChartList extends ChartList{
+public class QmSearchChartList extends AbstractChartList{
     
     @Override
     public Chart makeChartWithOption(int domainIndex) {

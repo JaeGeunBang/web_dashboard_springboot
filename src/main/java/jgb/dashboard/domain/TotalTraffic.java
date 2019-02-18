@@ -8,7 +8,7 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 
-public class TotalTraffic  extends CommonDomainField{
+public class TotalTraffic  extends CommonField{
     @Column(nullable = false)
     public String domain;
 

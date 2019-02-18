@@ -2,7 +2,7 @@
 package jgb.dashboard.chartList;
 import jgb.dashboard.chart.*;
 
-public class AvgSearchChartList extends ChartList{
+public class AvgSearchChartList extends AbstractChartList{
     
     @Override
     public Chart makeChartWithOption(int domainIndex) {

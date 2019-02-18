@@ -8,7 +8,7 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 
-public class Search extends CommonDomainField{
+public class Search extends CommonField{
     @Column(nullable = false)
     private String valueType; 
 

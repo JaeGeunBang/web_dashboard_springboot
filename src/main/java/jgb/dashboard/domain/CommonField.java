@@ -4,10 +4,12 @@ package jgb.dashboard.domain;
 import javax.persistence.*;
 import lombok.*;
 
+@Entity
+@Inheritance
 @Data
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class CommonDomainField {
+public abstract class CommonField {
     @Id
     @GeneratedValue
     private Integer id;
