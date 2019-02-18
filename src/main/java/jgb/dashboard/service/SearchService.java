@@ -34,7 +34,7 @@ public class SearchService extends AbstractService{
     @Override
     public List<CommonField> getCommonField(String search_type, String device, String date_type, String start_date, String end_date) {
         // 임시로
-        if(search_type.equals("QmSearch"))
+        if(search_type.equals("AvgSearch"))
             return changeTypeCommonDomainField(searchRepository.getSearchTableRowList("0", device, date_type, start_date, end_date));
         else
             return changeTypeCommonDomainField(searchRepository.getSearchTableRowList("1", device, date_type, start_date, end_date));
