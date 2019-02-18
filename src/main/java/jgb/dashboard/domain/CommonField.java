@@ -9,7 +9,7 @@ import lombok.*;
 @Data
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public abstract class CommonDomainField {
+public abstract class CommonField {
     @Id
     @GeneratedValue
     private Integer id;

@@ -2,82 +2,51 @@
 package jgb.dashboard.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import jgb.dashboard.repository.*;
 import jgb.dashboard.domain.*;
-import jgb.dashboard.chart.*;
-import jgb.dashboard.chartList.*;
 
 import java.util.*;
 
 @Service
+@Qualifier("SearchService")
 @Transactional
-public class SearchService{
+public class SearchService extends AbstractService{
     @Autowired
     SearchRepository searchRepository ;
 
-    ChartListFactory chartListFactory ;
-    ChartFactory chartFactory ;
+    @Override
+    public double[][] makeChartDataArray(List<CommonField> commonTableRowList, Map<String, Integer> domainMap, int deduplicatedDomainsSize, 
+        Map<String, Integer> dateMap, int deduplicatedDatesSize){
+        double[][] chartDataArray = new double[deduplicatedDomainsSize][deduplicatedDatesSize];
 
-    public SearchService() {
-        this.chartListFactory = new ChartListFactory() ;
-        this.chartFactory = new ChartFactory() ;
+        for(CommonField commonDomain : commonTableRowList) {
+            chartDataArray[domainMap.get(((Search)commonDomain).getValueType())]
+                [dateMap.get(commonDomain.getDate())]
+                    = ((Search)commonDomain).getValue() ;
+        }
+        return chartDataArray ;
     }
 
-    private List<CommonDomainField> changeTypeCommonDomainField(List<Search> totalTrafficList) {
-        List<CommonDomainField> commonTableRowList = new ArrayList<CommonDomainField>();
+    @Override
+    public List<CommonField> getCommonField(String search_type, String device, String date_type, String start_date, String end_date) {
+        // 임시로
+        if(search_type.equals("QmSearch"))
+            return changeTypeCommonDomainField(searchRepository.getSearchTableRowList("0", device, date_type, start_date, end_date));
+        else
+            return changeTypeCommonDomainField(searchRepository.getSearchTableRowList("1", device, date_type, start_date, end_date));
+    }
+
+    private List<CommonField> changeTypeCommonDomainField(List<Search> totalTrafficList) {
+        List<CommonField> commonTableRowList = new ArrayList<CommonField>();
         for(Search t_object : totalTrafficList) {
             commonTableRowList.add(t_object) ;
         }
         return commonTableRowList;
     }
 
-    public ChartList makeSearchChartBySearchTable(String search_type, String device, String date_type, String start_date, String end_date){
-        List<CommonDomainField> commonTableRowList = null;
-        commonTableRowList = changeTypeCommonDomainField(searchRepository.getSearchTableRowList(search_type, device, date_type, start_date, end_date)) ;
-        
-        ChartList chartList = null;
-
-        if(search_type.equals("0"))
-            chartList = chartListFactory.makeChartListType("QmSearch") ;
-        else 
-            chartList = chartListFactory.makeChartListType("AvgSearch") ;
-
-        List<String> deduplicatedDomains = chartList.getDeduplicatedDomains(commonTableRowList) ;
-        Map<String, Integer> domainMap = chartList.makeDomainMap(deduplicatedDomains) ;
-        int deduplicatedDomainsSize = deduplicatedDomains.size() ;
-
-        List<String> deduplicatedDates = chartList.getDeduplicatedDates(commonTableRowList) ;
-        Map<String, Integer> dateMap = chartList.makeDateMap(deduplicatedDates);
-        int deduplicatedDatesSize = deduplicatedDates.size() ;
-
-        double[][] chartDataArray = new double[deduplicatedDomainsSize][deduplicatedDatesSize];
-
-        for(CommonDomainField commonDomain : commonTableRowList) {
-            chartDataArray[domainMap.get(((TotalTraffic)commonDomain).getDomain() + "_" + ((TotalTraffic)commonDomain).getPvuv())]
-                [dateMap.get(commonDomain.getDate())]
-                    = ((TotalTraffic)commonDomain).getValue() ;
-        }
-        
-        chartList.setDateList(deduplicatedDates.toArray(new String[deduplicatedDatesSize])) ;
-        Chart[] charts = new Chart[deduplicatedDomainsSize];
-        for(int i = 0 ; i < charts.length ; i++) {
-            if(search_type.equals("0"))
-                charts[i] = chartFactory.makeChartType("QmSearch") ;
-            else
-                charts[i] = chartFactory.makeChartType("AvgSearch") ;
-        }
-
-        for(int i = 0 ; i < deduplicatedDomainsSize ; i++) {
-            Chart chartObject = chartList.makeChartWithOption(i);
-            chartObject.setLabel(deduplicatedDomains.get(i));
-            chartObject.setData(chartDataArray[i]) ;
-            charts[i] = chartObject;
-        }
-
-        chartList.setChartData(charts) ;
-        return chartList;
-    }
+    
 }

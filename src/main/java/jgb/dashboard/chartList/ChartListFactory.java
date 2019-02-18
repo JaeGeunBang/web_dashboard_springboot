@@ -1,7 +1,7 @@
 package jgb.dashboard.chartList ;
 
 public class ChartListFactory {
-    public ChartList makeChartListType(String type) {
+    public AbstractChartList makeChartListType(String type) {
         if(type.equals("TotalTraffic")) 
             return new TotalTrafficChartList() ;
         else if(type.equals("AvgSearch")) 

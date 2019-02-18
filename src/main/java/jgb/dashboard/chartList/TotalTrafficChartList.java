@@ -2,7 +2,7 @@
 package jgb.dashboard.chartList;
 import jgb.dashboard.chart.*;
 
-public class TotalTrafficChartList extends ChartList{
+public class TotalTrafficChartList extends AbstractChartList{
     
     @Override
     public Chart makeChartWithOption(int domainIndex) {

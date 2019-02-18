@@ -11,16 +11,16 @@ import jgb.dashboard.chart.*;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 
-public abstract class ChartList{
+public abstract class AbstractChartList{
     private String[] dateList ;
     private Chart[] chartData ;
 
     public abstract Chart makeChartWithOption(int domainIndex) ;
 
-    public List<String> getDeduplicatedDomains(List<CommonDomainField> tableRowList) {
+    public List<String> getDeduplicatedDomains(List<CommonField> tableRowList) {
         List<String> list = new ArrayList<String>();
         Set<String> set = new HashSet<String>() ;
-        for(CommonDomainField tableRow : tableRowList){
+        for(CommonField tableRow : tableRowList){
             if(tableRow instanceof TotalTraffic)
                 set.add(((TotalTraffic)tableRow).getDomain() + "_" + ((TotalTraffic)tableRow).getPvuv()) ;
             else if(tableRow instanceof Search)
@@ -30,10 +30,10 @@ public abstract class ChartList{
         Collections.sort(list);
         return list ;
     }
-    public List<String> getDeduplicatedDates(List<CommonDomainField> tableRowList) {
+    public List<String> getDeduplicatedDates(List<CommonField> tableRowList) {
         List<String> list = new ArrayList<String>();
         Set<String> set = new HashSet<String>() ;
-        for(CommonDomainField tableRow : tableRowList){
+        for(CommonField tableRow : tableRowList){
             set.add(tableRow.getDate()) ;
         }
         list.addAll(set) ;
